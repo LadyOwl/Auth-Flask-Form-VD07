@@ -5,5 +5,5 @@
 {% block content %}
 <h2>Профиль пользователя: {{ user.username }}</h2>
 <p><strong>Email:</strong> {{ user.email }}</p>
-<a href="{{ url_for('edit_profile') }}" class="btn btn-info">Редактировать профиль</a>
+<a href="{{ url_for('main.edit_profile') }}" class="btn btn-info">Редактировать профиль</a>
 {% endblock %}
