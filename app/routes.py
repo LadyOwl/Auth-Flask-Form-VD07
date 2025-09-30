@@ -1,8 +1,10 @@
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, current_app
 from flask_login import login_user, logout_user, current_user, login_required
-from app import app, db
+from app import db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm
 from app.models import User
+
+# Убрано: from app import app, db — теперь используем current_app и db
 
 @app.route('/')
 def home():
