@@ -1,10 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block title %}Редактировать профиль{% endblock %}
+
+{% block content %}
+<h2>Редактировать профиль</h2>
+<form method="POST">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.username.label }}<br>
+        {{ form.username(class="form-control") }}<br>
+        {% for error in form.username.errors %}
+            <span class="error">{{ error }}</span><br>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.email.label }}<br>
+        {{ form.email(class="form-control") }}<br>
+        {% for error in form.email.errors %}
+            <span class="error">{{ error }}</span><br>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.current_password.label }}<br>
+        {{ form.current_password(class="form-control") }}<br>
+        {% for error in form.current_password.errors %}
+            <span class="error">{{ error }}</span><br>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.new_password.label }}<br>
+        {{ form.new_password(class="form-control") }}<br>
+        {% for error in form.new_password.errors %}
+            <span class="error">{{ error }}</span><br>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.confirm_new_password.label }}<br>
+        {{ form.confirm_new_password(class="form-control") }}<br>
+        {% for error in form.confirm_new_password.errors %}
+            <span class="error">{{ error }}</span><br>
+        {% endfor %}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
+</form>
+{% endblock %}
