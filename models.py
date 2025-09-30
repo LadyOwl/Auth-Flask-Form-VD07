@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
+import bcrypt
 from app import db
 
 class User(UserMixin, db.Model):
@@ -8,13 +8,20 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128))
+    password_hash = db.Column(db.String(60))
 
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
+        """Хеширует пароль с помощью bcrypt и сохраняет хеш."""
+        pwd_bytes = password.encode('utf-8')
+        salt = bcrypt.gensalt()
+        hash_bytes = bcrypt.hashpw(pwd_bytes, salt)
+        self.password_hash = hash_bytes.decode('utf-8')
 
     def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+        """Проверяет, соответствует ли введённый пароль сохранённому хешу."""
+        pwd_bytes = password.encode('utf-8')
+        hash_bytes = self.password_hash.encode('utf-8')
+        return bcrypt.checkpw(pwd_bytes, hash_bytes)
 
     def __repr__(self):
         return f'<User {self.username}>'
