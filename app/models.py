@@ -8,17 +8,15 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(60))
+    password_hash = db.Column(db.String(60))  # bcrypt хеш всегда 60 символов
 
     def set_password(self, password):
-        """Хеширует пароль с помощью bcrypt и сохраняет хеш."""
         pwd_bytes = password.encode('utf-8')
         salt = bcrypt.gensalt()
         hash_bytes = bcrypt.hashpw(pwd_bytes, salt)
         self.password_hash = hash_bytes.decode('utf-8')
 
     def check_password(self, password):
-        """Проверяет, соответствует ли введённый пароль сохранённому хешу."""
         pwd_bytes = password.encode('utf-8')
         hash_bytes = self.password_hash.encode('utf-8')
         return bcrypt.checkpw(pwd_bytes, hash_bytes)
